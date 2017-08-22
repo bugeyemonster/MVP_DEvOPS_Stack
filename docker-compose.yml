@@ -28,7 +28,7 @@ services:
       - LDAP_ORGANISATION=MVP
       - LDAP_DOMAIN=mvp.org
       - LDAP_ADMIN_PASSWORD=admin
-  
+
   jenkins:
     build: jenkins_master/
     container_name: jenkins
@@ -53,7 +53,7 @@ services:
       - "SLAVE_NAME=test"
       - "SLAVE_LABELS=test"
       - "SLAVE_MODE=exclusive"
-  
+
   gogs:
     image: gogs/gogs:0.11.4
     container_name: gogs
@@ -104,3 +104,15 @@ services:
       - /opt/db/sonarqube/:/var/lib/postgresql
     ports:
       - "5432:5432"
+  sonarqube:
+    image: harbur/sonarqube:latest
+    build: ./
+    links:
+      - postgresql:db
+    environment:
+      - DB_USER=sonar
+      - DB_PASS=sonar
+      - DB_NAME=sonar
+    ports:
+      - "9000:9000"
+      - "443"
